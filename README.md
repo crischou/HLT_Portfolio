@@ -2,4 +2,4 @@
 UTD CS4395 Humans Language Technology (NLP)
 
 ##HW0
-[Overview](overview\ of\ nlp.pdf)
+[Overview](/Overview%20Of%20NLP.pdf)
