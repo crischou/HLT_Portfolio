@@ -34,11 +34,29 @@ def process_lines(lines):
     for line in lines:
         #split line into parts on ','
         parts = line.split(',')
+        #check if name is capital case
+        if not parts[0].istitle() : #lastname
+            
+            parts[0] = parts[0].capitalize()
+
+        if not parts[1].istitle(): #firstname
+            
+            parts[1] = parts[1].capitalize()
+
+        #Checking middle initial
+        if not parts[2].isupper(): 
+
+            parts[2] = parts[2].upper()
+
+        if parts[2] == "":
+
+            parts[2] = "X"
+
         #create new person object for every employee
-        person = Person(parts[0], parts[1], parts[2], parts[3], parts[4])
+        newPerson = Person(parts[0], parts[1], parts[2], parts[3], parts[4])
         #add person object to employees dict using ID as key
-        employees[parts[3]] = person
-        #print(parts)
+        employees[parts[3]] = newPerson
+
 
 
 
