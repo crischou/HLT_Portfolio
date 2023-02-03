@@ -56,7 +56,7 @@ if __name__ == '__main__':
         #refer to process_lines method
         process_lines(text_in[1:])   
 
-        #print
+        #print using display method
         for key in employees:
             employees[key].display()
         
