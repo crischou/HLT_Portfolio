@@ -51,6 +51,27 @@ def process_lines(lines):
         if parts[2] == "":
 
             parts[2] = "X"
+        
+        #check id
+        regCheck = False
+        #interate until valid input
+        while not regCheck:
+            regCheck = re.match('([a-zA-Z]{2})''([0-9]{4})$', parts[3])
+            #get new id if invalid
+            if not regCheck:
+                print("ID invalid: " + parts[3])
+                print("ID is two letters followed by 4 digits: ")
+                parts[3] = input("Enter new ID: ")
+
+        #check phone number
+        regCheck = False 
+        #iterate until valid input
+        while not regCheck:
+            regCheck = re.match('([0-9]{3})''-''([0-9]{3})''-''([0-9]{4})$', parts[4])
+            if not regCheck:
+                print("Phone " + parts[4] + " is invalid")
+                print("Enter phone number in format: 123-456-7890")
+                parts[4] = input("Enter new phone number: ")
 
         #create new person object for every employee
         newPerson = Person(parts[0], parts[1], parts[2], parts[3], parts[4])
