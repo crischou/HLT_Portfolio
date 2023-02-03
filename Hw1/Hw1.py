@@ -25,7 +25,7 @@ class Person:
         print("Office Phone: " + self.officePhone)
         print("\n")
 
-#employees dictionary
+#initial employees dictionary
 employees = {}
 
 #process lines method
@@ -95,9 +95,16 @@ if __name__ == '__main__':
         #refer to process_lines method
         process_lines(text_in[1:])   
 
+        #pickle employees
+        pickle.dump(employees, open("employees.pickle", "wb"))
+        
+        #read pickle back
+        employees_in = pickle.load(open("employees.pickle", "rb"))
+
         #print using display method
-        for key in employees:
-            employees[key].display()
+        print("\n\n Employees list: ")
+        for key in employees_in.keys():
+            employees_in[key].display()
         
 
 
