@@ -20,9 +20,9 @@ class Person:
     
     #display method
     def display(self):
-        print("Employee ID: " + self.id)
-        print(self.firstName, self.middleInitial, self.lastName)
-        print("Office Phone: " + self.officePhone)
+        print("\n\nEmployee ID: " + self.id)
+        print("\t"+self.firstName, self.middleInitial, self.lastName)
+        print("\t" + self.officePhone)
         print("\n")
 
 #initial employees dictionary
@@ -63,6 +63,12 @@ def process_lines(lines):
                 print("ID is two letters followed by 4 digits: ")
                 parts[3] = input("Enter new ID: ")
 
+        #checking for duplicate IDs
+        while parts[3] in employees:
+            print("ID " + parts[3]+" is already in use")
+            print("Please enter a different ID: ")
+            parts[3] = input("Enter new ID: ")
+
         #check phone number
         regCheck = False 
         #iterate until valid input
@@ -77,8 +83,7 @@ def process_lines(lines):
         newPerson = Person(parts[0], parts[1], parts[2], parts[3], parts[4])
         #add person object to employees dict using ID as key
         employees[parts[3]] = newPerson
-
-
+                
 
 
 if __name__ == '__main__':
@@ -95,6 +100,9 @@ if __name__ == '__main__':
         #refer to process_lines method
         process_lines(text_in[1:])   
 
+        #proceed if no duplicate
+        
+        
         #pickle employees
         pickle.dump(employees, open("employees.pickle", "wb"))
         
@@ -102,7 +110,7 @@ if __name__ == '__main__':
         employees_in = pickle.load(open("employees.pickle", "rb"))
 
         #print using display method
-        print("\n\n Employees list: ")
+        print("\n\n Employees list: \n")
         for key in employees_in.keys():
             employees_in[key].display()
         
