@@ -100,9 +100,6 @@ if __name__ == '__main__':
         #refer to process_lines method
         process_lines(text_in[1:])   
 
-        #proceed if no duplicate
-        
-        
         #pickle employees
         pickle.dump(employees, open("employees.pickle", "wb"))
         
