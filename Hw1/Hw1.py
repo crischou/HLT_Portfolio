@@ -10,7 +10,7 @@ import pathlib
 
 #person class
 class Person: 
-    #initializtion
+    #initialization
     def __init__(self, lastName, firstName, middleInitial, id, officePhone):
         self.lastName = lastName
         self.firstName = firstName
@@ -23,6 +23,7 @@ class Person:
         print("Employee ID: " + self.id)
         print(self.firstName, self.middleInitial, self.lastName)
         print("Office Phone: " + self.officePhone)
+        print("\n")
 
 #employees dictionary
 employees = {}
@@ -57,7 +58,7 @@ if __name__ == '__main__':
 
         #print
         for key in employees:
-            print(employees[key].display())
+            employees[key].display()
         
 
 
