@@ -1,6 +1,8 @@
 import nltk
+from nltk import word_tokenize
+from nltk import sent_tokenize
 import sys
-import numpy as np
+
 
 #read file
 
