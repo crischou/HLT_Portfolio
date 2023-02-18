@@ -63,7 +63,22 @@ if __name__ == '__main__':
         lexical_diversity = unique_words/total_words
         print("Lexical Diversity: ", str(round(lexical_diversity,2)))
 
-        preprocess(text_in)
+        tokens, nouns = preprocess(text_in)
 
-        #making dictonary
+        #making dictonary of {noun: count of noun in tokens}
+        noun_dict = {}
+        for noun in nouns:
+            noun_dict[noun] = tokens.count(noun)
         
+        
+        #sort top 50 and their counts
+        sorted_nouns = sorted(noun_dict.items(), key=lambda x: x[1], reverse=True)
+        print(sorted_nouns[:50])
+
+        #make a list of top 50 nouns
+        top_50 = [t[0] for t in sorted_nouns[:50]]
+
+        #guessing game
+        #start with 5 points
+        points = 5
+
