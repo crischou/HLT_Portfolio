@@ -10,7 +10,8 @@ import sys
 import re
 import pathlib
 from nltk.stem import WordNetLemmatizer
-
+from random import seed
+from random import randint
 
 #preprocess file
 def preprocess(text_in):
@@ -40,6 +41,22 @@ def preprocess(text_in):
     print(len(tokens))
     #return total tokens, and nouns
     return tokens, nouns
+
+#guessing game function
+def guess_game(top_50):
+    points = 5
+    print("Let's play a guessing game!")
+    #initialize seed
+    seed()
+    #choose random noun
+    rand = randint(0,49)
+    word = top_50[rand]
+    display = "_" * len(word)
+    #get user input
+    print(display)
+    guess = input("Guess a letter: ")
+
+
 
 if __name__ == '__main__':
     if len(sys.argv) < 2:
@@ -79,6 +96,5 @@ if __name__ == '__main__':
         top_50 = [t[0] for t in sorted_nouns[:50]]
 
         #guessing game
-        #start with 5 points
-        points = 5
+        guess_game(top_50)
 
