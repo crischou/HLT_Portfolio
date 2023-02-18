@@ -54,8 +54,31 @@ def guess_game(top_50):
     display = "_" * len(word)
     #get user input
     print(display)
-    guess = input("Guess a letter: ")
 
+    while points > 0:
+        guess = input("Guess a letter: ")
+        #check if guess is in word
+        if guess in word:
+            points += 1
+            print("Right guess! Score is ", points)
+            #update display  
+            for i in range(len(word)):
+                if word[i] == guess:
+                    display = display[:i] + guess + display[i+1:]
+        else:
+            #decrement points
+            points -= 1
+            print("Sorry, guess again. Score is ", points)
+        print(display)
+        #check if word is guessed
+        if display == word:
+            print("You solved it!\n")
+            print("Current score: ", points)
+            #choose a new word
+            rand = randint(0,49)
+            word = top_50[rand]
+            display = "_" * len(word)
+            print("Guess another word: ", display)
 
 
 if __name__ == '__main__':
