@@ -57,6 +57,11 @@ def guess_game(top_50):
 
     while points > 0:
         guess = input("Guess a letter: ")
+
+        #check if user wants to exit
+        if guess == '!':
+            print("Thanks for playing!")
+            break
         #check if guess is in word
         if guess in word:
             points += 1
@@ -70,6 +75,7 @@ def guess_game(top_50):
             points -= 1
             print("Sorry, guess again. Score is ", points)
         print(display)
+
         #check if word is guessed
         if display == word:
             print("You solved it!\n")
@@ -79,7 +85,9 @@ def guess_game(top_50):
             word = top_50[rand]
             display = "_" * len(word)
             print("Guess another word: ", display)
-
+    #print word if not guessed
+    if points == 0:
+        print("The word was: ", word) 
 
 if __name__ == '__main__':
     if len(sys.argv) < 2:
