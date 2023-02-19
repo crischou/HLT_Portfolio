@@ -10,3 +10,6 @@ Run on commandline with "python file.py <filepath.csv>"
 Python has many functions that are easy to use for processing text. The regex functions are easy and intuitive, and there are also many additional libraries that make text processing in Python very simple. Addtionaly, the language just feels smooth to code in. 
 This assignment was a good review for text processing in Python because it covered many scenarios and had lots of input validation. I also learned a bit more on how to use the Python Dictionaries datastrcuture.
 [Code](/Hw1/Hw1.py)
+
+## HW2
+[Code](/Hw2/Hw2.py)
