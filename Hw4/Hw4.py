@@ -18,4 +18,6 @@ def langMod(text_in):
     bigrams = nltk.bigrams(tokens)
     #use nltk to create unigrams list
     unigrams = nltk.unigrams(tokens)
-    
+
+    #use the bigram list to create bigram dict with counts
+    bigram_dict = {}
