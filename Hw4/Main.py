@@ -25,19 +25,11 @@ def langMod(text_in):
 
     #use the bigram list to create bigram dict with counts
     bigram_dict = {}
-    for bigram in bigrams:
-        if bigram in bigram_dict:
-            bigram_dict[bigram] += 1
-        else:
-            bigram_dict[bigram] = 1
+    bigram_dict = {b:bigrams.count(b) for b in set(bigrams)}
 
     #do same thing with unigram
     unigram_dict = {}
-    for unigram in unigrams:
-        if unigram in unigram_dict:
-            unigram_dict[unigram] += 1
-        else:
-            unigram_dict[unigram] = 1
+    unigram_dict = {u:unigrams.count(u) for u in set(unigrams)}
     
     #return bigram and unigram dicts
     return bigram_dict, unigram_dict
