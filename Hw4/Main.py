@@ -14,9 +14,9 @@ import pickle
 
 def langMod(text_in):
     #read text and remove newlines
-    tokens = open(text_in).read().replace('\n','')
+    tokens = open(text_in).read()
     #tokenize text
-    unigrams = nltk.word_tokenize(text_in)
+    unigrams = nltk.word_tokenize(tokens)
     #use nltk to create bigrams list
     bigrams = list(ngrams(tokens,2))
     #use nltk to create unigrams list
