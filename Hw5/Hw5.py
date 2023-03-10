@@ -13,14 +13,24 @@ url = 'https://en.wikipedia.org/wiki/Three-body_problem'
 
 
 def webCrawl(url): 
-    #loop through urls
-    for i in range(15):
-        res = ul.request.urlopen(url)
-        text = res.read().decode('UTF-8')
-        soup = BeautifulSoup(text, 'html5lib')
-        #scrape text from each url and put into a file
+    
+    res = ul.request.urlopen(url)
+    text = res.read().decode('UTF-8')
+    soup = BeautifulSoup(text, 'html5lib')
+    counter = 0
+    #get first 15 links from wikipage
+    for links in soup.find_all('a'):
+        link = links.get('href')
+
+        #make sure they are not wiki links
+        if 'wiki' not in link and 'http' in link:
+            print(link)
+            counter += 1
+        if counter >= 15:
+             break
+        #write to file
         with open('webCrawl.txt', 'a') as f:
-            f.write(soup.get_text())
+                f.write(link)
             
 
 webCrawl(url)
