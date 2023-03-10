@@ -26,11 +26,14 @@ def webCrawl(url):
         if 'wiki' not in link and 'http' in link:
             print(link)
             counter += 1
+            #write to different file each time
+            with open('link'+str(counter)+'.txt', 'w') as f:
+                f.write(link)
+                f.write('\n')
+
         if counter >= 15:
              break
         #write to file
-        with open('webCrawl.txt', 'a') as f:
-                f.write(link)
-            
+        
 
 webCrawl(url)
