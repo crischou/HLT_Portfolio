@@ -207,11 +207,27 @@ tfidf.update(tfidf13)
 tfidf.update(tfidf14)
 tfidf.update(tfidf15)
 
+#wordList = ''
 #get combined weighted terms
 combined_weighted_terms = sorted(tfidf.items(), key=lambda x: x[1], reverse=True)[:35]
 for term in combined_weighted_terms:
     print(term, '\n')
+    #wordList += str(term[0])+', '
 
-#pickle the tfidf dictionaries
+
 import pickle
-pickle.dump(tfidf1, open('tfidf1.p', 'wb'))
+#simple knowledge base
+import spacy
+
+nlp = spacy.load('en_core_web_md')
+
+doc = nlp(link12)
+knowledgeBase = {}
+
+for ent in doc.ents:
+    print(ent.text, ent.label_)
+    knowledgeBase[ent.text] = ent.label_
+
+#pickle knowledge base
+pickle.dump(knowledgeBase, open('knowledgeBase.p', 'wb'))
+
