@@ -207,7 +207,11 @@ tfidf.update(tfidf13)
 tfidf.update(tfidf14)
 tfidf.update(tfidf15)
 
+#get combined weighted terms
 combined_weighted_terms = sorted(tfidf.items(), key=lambda x: x[1], reverse=True)[:35]
 for term in combined_weighted_terms:
     print(term, '\n')
 
+#pickle the tfidf dictionaries
+import pickle
+pickle.dump(tfidf1, open('tfidf1.p', 'wb'))
