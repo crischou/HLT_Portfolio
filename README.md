@@ -21,3 +21,6 @@ This assignment was a good review for text processing in Python because it cover
 [Program 1](/Hw4/Main.py)
 [Program 2](/Hw4/Output.py)
 [Overview](/Hw4/Hw4%20Narrative.pdf)
+
+## HW5
+[Code](/Hw5/Hw5.py)
