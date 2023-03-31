@@ -24,3 +24,7 @@ This assignment was a good review for text processing in Python because it cover
 
 ## HW5
 [Code](/Hw5/Hw5.py)
+
+## Text Classification
+[Code](/textclass/textclass.ipynb)
+[Data files](/textclass/data)
