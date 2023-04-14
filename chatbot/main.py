@@ -21,18 +21,18 @@ class Chatbot:
         #pattern for grade/year
         grade_pattern = r'freshmen|sophmore|junior|senior'
 
-        name = input("Hello, what is your name? ")
+        name = input("Chatbot: Hello, what is your name? ")
         #check if new user or returning user
         if name not in self.users:
-            self.users[name] = {'name': name, 'grade': [], 'messages': [], 'responses': [], 'sentiment': []}
+            self.users[name] = {'name': name, 'grade': [],'message': [],'responses': []}
             self.greet(name)
 
         elif name in self.users:
-            print("Welcome back, " + name + "!")
+            print("Chatbot: Welcome back, " + name + "!")
 
         while True:
             message = input("You: ")
-            #self.users[name][message].append(message)
+            self.users[name]['message'].append(message)
 
 
             if "bye" in message.lower():
@@ -42,28 +42,38 @@ class Chatbot:
                 #check if user states their grade/year
                 match = re.search(grade_pattern,message,re.IGNORECASE)
                 if match:
-                    grade = self.grade(name,match.group(0))
+                    self.grade(name,match.group(0))
 
                 if("grade" in message.lower() or "year" in message.lower()):
                     if len(self.users[name]['grade']) == 0:
                         print("You haven't told me your grade yet.")
                     else:
-                        print("You are a " + self.users[name]['grade'][0] + " at UTD.")
-               
+                        print("You are a " + self.users[name]['grade'][0])
+                #Keep track of user questions
+                elif(self.isQuestion(message)):
+                    print("this is a question")
                 else:    
                     response = self.generate_response(name,message)
                     print("Chatbot: " + response)
                 
 
+    #check if message is a question
+    def isQuestion(self,message):
+        if "?" in message:
+            return True
+        elif "who" in message or "what" in message or "when" in message or "where" in message or "why" in message or "how" in message:
+            return True
+        else:
+            return False
 
     #greetings
     def greet(self, name):
         greetings = ["Hello","Hi","Hey","Howdy", "What's up","How are you doing"]
-        print(random.choice(greetings) + " " + name + "!")
+        print("Chatbot: "+ random.choice(greetings) + " " + name + "!")
     #goodbyes
     def goodbye(self, name):
         goodbyes = ["Goodbye","Bye","See you later","See you next time", "Have a good day"]
-        print(random.choice(goodbyes) + " " + name)
+        print("Chatbot: " + random.choice(goodbyes) + " " + name)
 
     #keep track of user grades
     def grade(self, name,grade):
@@ -83,9 +93,13 @@ class Chatbot:
             return "Sorry, I don't really know what to say."
 
 
+
+
+
 chatbot = Chatbot()
 
 cont = True
+
 while cont:
     chatbot.chat()
     ans = input("Would you like to chat again? (y/n): ")
