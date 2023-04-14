@@ -8,6 +8,15 @@ from nltk.stem import WordNetLemmatizer
 import random
 from nltk.sentiment import SentimentIntensityAnalyzer
 import re
+import os
+
+from langchain import OpenAI
+from langchain.indexes import VectorstoreIndexCreator
+from camo import API_KEY
+
+
+os.environ['OPENAI_API_KEY'] = API_KEY
+
 
 class Chatbot:
 
@@ -24,16 +33,16 @@ class Chatbot:
         name = input("Chatbot: Hello, what is your name? ")
         #check if new user or returning user
         if name not in self.users:
-            self.users[name] = {'name': name, 'grade': [],'message': [],'responses': []}
+            self.users[name] = {'name': name, 'grade': [],'message': [],'responses': [],"questions": [],"likes": [],"dislikes": []}
             self.greet(name)
 
         elif name in self.users:
             print("Chatbot: Welcome back, " + name + "!")
 
+        
         while True:
             message = input("You: ")
             self.users[name]['message'].append(message)
-
 
             if "bye" in message.lower():
                 self.goodbye(name)
@@ -43,15 +52,19 @@ class Chatbot:
                 match = re.search(grade_pattern,message,re.IGNORECASE)
                 if match:
                     self.grade(name,match.group(0))
-
+                
                 if("grade" in message.lower() or "year" in message.lower()):
                     if len(self.users[name]['grade']) == 0:
                         print("You haven't told me your grade yet.")
+                    #if multiple grade values get latest one
+                    elif len(self.users[name]['grade']) > 1:
+                        print("You are a " + self.users[name]['grade'][len(self.users[name]['grade'])-1])
                     else:
                         print("You are a " + self.users[name]['grade'][0])
                 #Keep track of user questions
                 elif(self.isQuestion(message)):
-                    print("this is a question")
+                    #print("this is a question")
+                    self.users[name]['questions'].append(message)
                 else:    
                     response = self.sent_response(name,message)
                     print("Chatbot: " + response)
