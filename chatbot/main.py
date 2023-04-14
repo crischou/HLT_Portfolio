@@ -18,7 +18,7 @@ from camo import API_KEY
 
 os.environ['OPENAI_API_KEY'] = API_KEY
 
-#vectoreindexstore for knowledgebase
+#Using langchains VectorstoreIndexCreator
 loader = TextLoader("data/data_l.txt")
 index = VectorstoreIndexCreator().from_loaders([loader])
 
@@ -73,7 +73,13 @@ class Chatbot:
                 #Keep track of user questions
                 elif(self.isQuestion(message)):
                     #print("this is a question")
+                    #using LangChain query to get response
+                    response = index.query(message)
+                    print("Chatbot: " + response)
+                    
                     self.users[name]['questions'].append(message)
+
+                #keep track of user likes
                 elif(re.search(like_pattern,message,re.IGNORECASE)):
                     matches = re.findall(like_pattern,message,flags = re.IGNORECASE)
                     for match in matches:
@@ -92,12 +98,15 @@ class Chatbot:
 
     #check if message is a question
     def isQuestion(self,message):
+        message = message.lower()
         if "?" in message:
             return True
-        elif "who" in message or "what" in message or "when" in message or "where" in message or "why" in message or "how" in message:
+        elif "who" in message or "what" in message.lower or "when" in message or "where" in message or "why" in message or "how" in message:
             return True
         else:
             return False
+        
+    
 
     #greetings
     def greet(self, name):
@@ -112,6 +121,7 @@ class Chatbot:
     def grade(self, name,grade):
         self.users[name]['grade'].append(grade)
 
+    #sentiment response
     def sent_response(self, name, message):
         #sentiment analysis
         sentAnalyzer = SentimentIntensityAnalyzer()
