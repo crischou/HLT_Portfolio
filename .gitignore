@@ -7,3 +7,7 @@ Hw4/unidictFr.p
 Hw4/unidictIt.p
 Hw5/*.txt
 Hw5/*.p
+chatbot/camo.py
+chatbot/.chroma
+chatbot/chroma_logs.log
+chatbot/*_
