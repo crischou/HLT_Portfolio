@@ -11,11 +11,16 @@ import re
 import os
 
 from langchain import OpenAI
+from langchain.document_loaders import TextLoader
 from langchain.indexes import VectorstoreIndexCreator
 from camo import API_KEY
 
 
 os.environ['OPENAI_API_KEY'] = API_KEY
+
+#vectoreindexstore for knowledgebase
+loader = TextLoader("data/data_l.txt")
+index = VectorstoreIndexCreator().from_loaders([loader])
 
 
 class Chatbot:
