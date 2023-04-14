@@ -31,9 +31,13 @@ class Chatbot:
         self.lemmatizer = WordNetLemmatizer()
 
     def chat(self):
-
+        
+        like_keywords = ["like","love","enjoy","want","favorite","prefer"]
+        dislike_keywords = ["dislike","hate","dont like","dont enjoy","dont want"]
         #pattern for grade/year
         grade_pattern = r'freshmen|sophmore|junior|senior'
+        like_pattern = r'\b(?:%s)\b' % '|'.join(like_keywords)
+        dislike_pattern = r'\b(?:%s)\b' % '|'.join(dislike_keywords)
 
         name = input("Chatbot: Hello, what is your name? ")
         #check if new user or returning user
@@ -70,6 +74,17 @@ class Chatbot:
                 elif(self.isQuestion(message)):
                     #print("this is a question")
                     self.users[name]['questions'].append(message)
+                elif(re.search(like_pattern,message,re.IGNORECASE)):
+                    matches = re.findall(like_pattern,message,flags = re.IGNORECASE)
+                    for match in matches:
+                        like = re.findall(f'{match}(/w+)',message,flags = re.IGNORECASE)
+                        print(like)
+                        self.users[name]['likes'].append(like)
+
+                    print("Chatbot: " + "Noted. "+name+" likes ")
+                    for like in self.users[name]['likes']:
+                        print(like," and ")
+                    
                 else:    
                     response = self.sent_response(name,message)
                     print("Chatbot: " + response)
