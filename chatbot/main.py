@@ -53,7 +53,7 @@ class Chatbot:
                 elif(self.isQuestion(message)):
                     print("this is a question")
                 else:    
-                    response = self.generate_response(name,message)
+                    response = self.sent_response(name,message)
                     print("Chatbot: " + response)
                 
 
@@ -79,7 +79,7 @@ class Chatbot:
     def grade(self, name,grade):
         self.users[name]['grade'].append(grade)
 
-    def generate_response(self, name, message):
+    def sent_response(self, name, message):
         #sentiment analysis
         sentAnalyzer = SentimentIntensityAnalyzer()
         
