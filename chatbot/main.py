@@ -43,6 +43,9 @@ class Chatbot:
         #school related keywords
         school_keywords = ["utd","university of texas at dallas","college","school","university","utdallas","class","student","professor","grades","semester","enrollment","degree","major","minor","graduate","undergraduate","graduate school","undergraduate school","graduate student"]
         
+
+
+
         print("Chatbot: Hello, what is your name?")
         name = input("You: ")
         #check if new user or returning user
@@ -57,6 +60,19 @@ class Chatbot:
         while True:
             message = input("You: ")
             self.users[name]['message'].append(message)
+
+            #tokenize message
+            tokens = nltk.word_tokenize(message)
+            #get pos tags
+            pos = nltk.pos_tag(tokens)
+            #get subject of message
+            ner_tags = nltk.ne_chunk(pos)
+            subject = ""
+            #extract subject
+            for chunk in ner_tags:
+                if hasattr(chunk, 'label') and chunk.label() == 'PERSON':
+                    subject = ' '.join(c[0] for c in chunk.leaves())
+                    break
 
             if "bye" in message.lower():
                 self.goodbye(name)
@@ -77,36 +93,63 @@ class Chatbot:
                         print("You are a " + self.users[name]['grade'][0])
                 #Keep track of user questions
                 elif(self.isQuestion(message)):
+                    
 
                     #using LangChain query to get response if related to utd
                     if (any(word in message.lower() for word in school_keywords)):
                         response = index.query(message)
                         print("Chatbot: " + response)
+                    #check if asking about likes
                     elif(re.search(like_pattern,message,re.IGNORECASE)):
-                        #check if user has likes
-                        if len(self.users[name]['likes']) == 0:
-                            print("You haven't told me what you like yet.")
+                        #check who the user is asking about
+                        if subject == name:
+                            #check if user has likes
+                            if len(self.users[name]['likes']) == 0:
+                                print("You haven't told me what you like yet.")
+                            else:
+                                #choose random like
+                                #like = random.choice(self.users[name]['likes'])
+                                like_items = ""
+                                for likes in self.users[name]['likes']:
+                                    like_items = like_items + ", "+ likes[0] 
+                                print("Chatbot: "+name+" likes "+like_items)
+                        #check if subject has likes
+                        elif(subject in self.users):
+                            if(len(self.users[subject]['likes'])> 0):
+                                like_items = ""
+                                for likes in self.users[subject]['likes']:
+                                    like_items = like_items + ", "+ likes[0] 
+                                print("Chatbot: "+subject+" likes "+like_items)
+                            elif(len(self.users[subject]['likes']) == 0):
+                                print("Chatbot: "+subject+" hasn't told me what they like yet.")
                         else:
-                            #choose random like
-                            #like = random.choice(self.users[name]['likes'])
-                            like_items = ""
-                            for likes in self.users[name]['likes']:
-                                like_items = like_items + ", "+ likes[0] 
-                            print("Chatbot: "+name+" likes "+like_items)
-                            
+                            print("Chatbot: I don't know who "+subject+" is.")
 
                             
                     elif(re.search(dislike_pattern,message,re.IGNORECASE)):
-                        #check if user has dislikes
-                        if len(self.users[name]['dislikes']) == 0:
-                            print("You haven't told me what you dislike yet.")
+                        #check who the user is asking about
+                        if subject == name:
+                            #check if user has dislikes
+                            if len(self.users[name]['dislikes']) == 0:
+                                print("You haven't told me what you dislike yet.")
+                            else:
+                                #choose random dislike
+                                #dislike = random.choice(self.users[name]['dislikes'])
+                                dislike_items=""
+                                for dislike in self.users[name]['dislikes']:
+                                    dislike_items = dislike_items + ", "+ dislike[0] 
+                                print("Chatbot: "+name+" dislikes "+ dislike_items)
+                        #check if subject has likes
+                        elif(subject in self.users):
+                            if(len(self.users[subject]['dislikes'])> 0):
+                                dislike_items = ""
+                                for dislikes in self.users[subject]['dislikes']:
+                                    dislike_items = dislike_items + ", "+ dislikes[0] 
+                                print("Chatbot: "+subject+" dislikes "+dislike_items)
+                            elif(len(self.users[subject]['dislikes']) == 0):
+                                print("Chatbot: "+subject+" hasn't told me what they dislike yet.")
                         else:
-                            #choose random dislike
-                            #dislike = random.choice(self.users[name]['dislikes'])
-                            dislike_items=""
-                            for dislike in self.users[name]['dislikes']:
-                                dislike_items = dislike_items + ", "+ dislike[0] 
-                            print("Chatbot: "+name+" dislikes "+ dislike_items)
+                            print("Chatbot: I don't know who "+subject+" is.")
                     
                     self.users[name]['questions'].append(message)
 
