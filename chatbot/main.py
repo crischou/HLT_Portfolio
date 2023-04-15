@@ -205,7 +205,7 @@ class Chatbot:
                     for dislikes,pos in pos:
                         if pos == 'NN':
                             #print(dislikes)
-                            self.users[name]['likes'].append(dislikes)
+                            self.users[name]['dislikes'].append(dislikes)
 
                     #looking for keywords
                     # matches = re.findall(dislike_pattern,message,flags = re.IGNORECASE)
