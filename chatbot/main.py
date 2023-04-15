@@ -84,15 +84,7 @@ class Chatbot:
             pos = nltk.pos_tag(tokens)
             #print(pos)
             #get subject of message
-            ner_tags = nltk.ne_chunk(pos)
-            # print(ner_tags)
-            # subject = ""
-            # #extract subject
-            # for chunk in ner_tags:
-            #     if hasattr(chunk, 'label') and chunk.label() == 'PERSON':
-            #         subject = ' '.join(c[0] for c in chunk.leaves())
-            #         break
-
+            
             subject =""
             doc = spacy_nlp(message)
             for token in doc:
@@ -130,7 +122,7 @@ class Chatbot:
                     #check if asking about likes
                     elif(re.search(like_pattern,message,re.IGNORECASE)):
                         #check who the user is asking about
-                        print("subject: "+subject)
+                        #print("subject: "+subject)
                         if subject == name or subject.lower() == "i":
                             #check if user has likes
                             if len(self.users[name]['likes']) == 0:
