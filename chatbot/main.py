@@ -40,7 +40,7 @@ class Chatbot:
         like_keywords = ["like","love","enjoy","want","favorite","prefer"]
         dislike_keywords = ["dislike","hate","dont like","dont enjoy","dont want","don't like","dont like"]
         #pattern for grade/year
-        grade_pattern = r'freshmen|sophmore|junior|senior'
+        grade_pattern = r'freshman|sophmore|junior|senior'
         #pattern for like and dislike keywords
         like_pattern = r'\b(?:%s)\b' % '|'.join(like_keywords)
         dislike_pattern = r'\b(?:%s)\b' % '|'.join(dislike_keywords)
@@ -111,7 +111,7 @@ class Chatbot:
                 if match:
                     self.grade(name,match.group(0))
                 
-                if("grade" in message.lower() or "year" in message.lower()):
+                if("year" in message.lower()):
                     if len(self.users[name]['grade']) == 0:
                         print("You haven't told me your grade yet.")
                     #if multiple grade values get latest one
@@ -147,7 +147,7 @@ class Chatbot:
                             if(len(self.users[subject]['likes'])> 0):
                                 like_items = ""
                                 for likes in self.users[subject]['likes']:
-                                    like_items = like_items + ", "+ likes[0] 
+                                    like_items = like_items + ", "+ likes 
                                 print("Chatbot: "+subject+" likes "+like_items)
                             elif(len(self.users[subject]['likes']) == 0):
                                 print("Chatbot: "+subject+" hasn't told me what they like yet.")
@@ -165,8 +165,8 @@ class Chatbot:
                                 #choose random dislike
                                 #dislike = random.choice(self.users[name]['dislikes'])
                                 dislike_items=""
-                                for dislike in self.users[name]['dislikes']:
-                                    dislike_items = dislike_items + ", "+ dislike 
+                                for dislikes in self.users[name]['dislikes']:
+                                    dislike_items = dislike_items + ", "+ dislikes
                                 print("Chatbot: "+name+" dislikes "+ dislike_items)
                         #check if subject has likes
                         elif(subject in self.users):
@@ -175,6 +175,7 @@ class Chatbot:
                                 for dislikes in self.users[subject]['dislikes']:
                                     dislike_items = dislike_items + ", "+ dislikes 
                                 print("Chatbot: "+subject+" dislikes "+dislike_items)
+
                             elif(len(self.users[subject]['dislikes']) == 0):
                                 print("Chatbot: "+subject+" hasn't told me what they dislike yet.")
                         else:
@@ -186,7 +187,7 @@ class Chatbot:
                 elif(re.search(like_pattern,message,re.IGNORECASE)):
                     #get NN in message
                     for likes,pos in pos:
-                        if pos == 'NN':
+                        if pos == 'NN' or pos == 'NNS' or pos =='VBG':
                            #print(likes)
                             self.users[name]['likes'].append(likes)
                     #looking for keywords
@@ -203,7 +204,7 @@ class Chatbot:
                 elif(re.search(dislike_pattern,message,re.IGNORECASE)):
                     #get NN in message
                     for dislikes,pos in pos:
-                        if pos == 'NN':
+                        if pos == 'NN' or pos == 'NNS' or pos =='VBG':
                             #print(dislikes)
                             self.users[name]['dislikes'].append(dislikes)
 
@@ -215,7 +216,7 @@ class Chatbot:
                     #     self.users[name]['dislikes'].append(dislikes)
 
                     #print(len(self.users[name]['dislikes']))
-                    print("Chatbot: " + "Noted. "+name+" dislikes "+dislikes)
+                    print("Chatbot: " + "Noted. "+name+" dislikes ",", ".join(self.users[name]['dislikes']))
                 #respond to user thanks
                 elif(any(word in message.lower() for word in thanks_keywords)):
                     self.resp_ty(name)
