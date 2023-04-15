@@ -1,5 +1,5 @@
 #Cris Chou
-#Chat bot
+#Chatbot
 
 
 import nltk
@@ -40,6 +40,8 @@ class Chatbot:
         #pattern for like and dislike keywords
         like_pattern = r'\b(?:%s)\b' % '|'.join(like_keywords)
         dislike_pattern = r'\b(?:%s)\b' % '|'.join(dislike_keywords)
+        #school related keywords
+        school_keywords = ["utd","university of texas at dallas","college","school","university","utdallas","class","student","professor","grades","semester","enrollment","degree","major","minor","graduate","undergraduate","graduate school","undergraduate school","graduate student"]
         
         print("Chatbot: Hello, what is your name?")
         name = input("You: ")
@@ -77,7 +79,7 @@ class Chatbot:
                 elif(self.isQuestion(message)):
 
                     #using LangChain query to get response if related to utd
-                    if "utd" in message.lower():
+                    if (any(word in message.lower() for word in school_keywords)):
                         response = index.query(message)
                         print("Chatbot: " + response)
                     elif(re.search(like_pattern,message,re.IGNORECASE)):
