@@ -34,7 +34,7 @@ class Chatbot:
         
         #like and disklike keywords
         like_keywords = ["like","love","enjoy","want","favorite","prefer"]
-        dislike_keywords = ["dislike","hate","dont like","dont enjoy","dont want"]
+        dislike_keywords = ["dislike","hate","dont like","dont enjoy","dont want","don't like","dont like"]
         #pattern for grade/year
         grade_pattern = r'freshmen|sophmore|junior|senior'
         #pattern for like and dislike keywords
@@ -94,10 +94,19 @@ class Chatbot:
 
                     #print(len(self.users[name]['likes']))
                     print("Chatbot: " + "Noted. "+name+" likes ")
-                    for like in self.users[name]['likes']:
-                        print(like," and ")
+                    
                 #keep track of user dislikes
-                
+                elif(re.search(dislike_pattern,message,re.IGNORECASE)):
+                    
+                    #looking for keywords
+                    matches = re.findall(dislike_pattern,message,flags = re.IGNORECASE)
+                    for match in matches:
+                        dislikes = re.findall(f'{match} ([\w\s]+)',message,flags = re.IGNORECASE)
+                        
+                        self.users[name]['dislikes'].append(dislikes)
+
+                    #print(len(self.users[name]['dislikes']))
+                    print("Chatbot: " + "Noted. "+name+" dislikes ")
                     
                 else:    
                     response = self.sent_response(name,message)
