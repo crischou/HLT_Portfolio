@@ -46,10 +46,17 @@ class Chatbot:
         thanks_keywords = ["thank","thanks","thank you","thanks you","appreciate","appreciate it","appreciate you","appreciate it"]
         #greeting keywords
         greetings_keywords = ["hi","hello","howdy","salutations","hey","yo","sup"]
-
+        #name pattern
+        name_pattern = re.compile(r"(i'm|i am|im|my name is|my names)[\s]+([A-Za-z]+)",re.IGNORECASE)
 
         print("Chatbot: Hello, what is your name?")
-        name = input("You: ")
+        raw_in = input("You: ")
+        match = re.search(name_pattern,raw_in)
+        if match:
+            name = match.group(2)
+        else:
+            name = raw_in
+                    
         #check if new user or returning user
         if name not in self.users:
             self.users[name] = {'name': name, 'grade': [],'message': [],'responses': [],"questions": [],"likes": [],"dislikes": []}
@@ -104,7 +111,7 @@ class Chatbot:
                     #check if asking about likes
                     elif(re.search(like_pattern,message,re.IGNORECASE)):
                         #check who the user is asking about
-                        if subject == name:
+                        if subject == name or subject.lower() == "i":
                             #check if user has likes
                             if len(self.users[name]['likes']) == 0:
                                 print("You haven't told me what you like yet.")
