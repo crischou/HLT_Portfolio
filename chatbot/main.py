@@ -100,8 +100,11 @@ class Chatbot:
                             print("You haven't told me what you dislike yet.")
                         else:
                             #choose random dislike
-                            dislike = random.choice(self.users[name]['dislikes'])
-                            print("Chatbot: "+name+" dislikes "+dislike)
+                            #dislike = random.choice(self.users[name]['dislikes'])
+                            dislike_items=""
+                            for dislike in self.users[name]['dislikes']:
+                                dislike_items = dislike_items + ", "+ dislike[0] 
+                            print("Chatbot: "+name+" dislikes "+ dislike_items)
                     
                     self.users[name]['questions'].append(message)
 
