@@ -45,7 +45,7 @@ class Chatbot:
         #thank keywords
         thanks_keywords = ["thank","thanks","thank you","thanks you","appreciate","appreciate it","appreciate you","appreciate it"]
         #greeting keywords
-        greeting_keywords = ["hi","hello","howdy","salutations","hey","yo","sup"]
+        greetings_keywords = ["hi","hello","howdy","salutations","hey","yo","sup"]
 
 
         print("Chatbot: Hello, what is your name?")
@@ -186,7 +186,7 @@ class Chatbot:
                 #respond to user greetings
                 elif(any(word in message.lower() for word in greetings_keywords)):
                     self.greet(name)
-                    
+
                 #general sentiment response
                 else:    
                     response = self.sent_response(name,message)
