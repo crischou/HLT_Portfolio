@@ -32,14 +32,17 @@ class Chatbot:
 
     def chat(self):
         
+        #like and disklike keywords
         like_keywords = ["like","love","enjoy","want","favorite","prefer"]
         dislike_keywords = ["dislike","hate","dont like","dont enjoy","dont want"]
         #pattern for grade/year
         grade_pattern = r'freshmen|sophmore|junior|senior'
+        #pattern for like and dislike keywords
         like_pattern = r'\b(?:%s)\b' % '|'.join(like_keywords)
         dislike_pattern = r'\b(?:%s)\b' % '|'.join(dislike_keywords)
-
-        name = input("Chatbot: Hello, what is your name? ")
+        
+        print("Chatbot: Hello, what is your name?")
+        name = input("You: ")
         #check if new user or returning user
         if name not in self.users:
             self.users[name] = {'name': name, 'grade': [],'message': [],'responses': [],"questions": [],"likes": [],"dislikes": []}
@@ -72,7 +75,7 @@ class Chatbot:
                         print("You are a " + self.users[name]['grade'][0])
                 #Keep track of user questions
                 elif(self.isQuestion(message)):
-                    #print("this is a question")
+
                     #using LangChain query to get response
                     response = index.query(message)
                     print("Chatbot: " + response)
@@ -81,15 +84,20 @@ class Chatbot:
 
                 #keep track of user likes
                 elif(re.search(like_pattern,message,re.IGNORECASE)):
+                    
+                    #looking for keywords
                     matches = re.findall(like_pattern,message,flags = re.IGNORECASE)
                     for match in matches:
-                        like = re.findall(f'{match}(/w+)',message,flags = re.IGNORECASE)
-                        print(like)
-                        self.users[name]['likes'].append(like)
+                        likes = re.findall(f'{match} ([\w\s]+)',message,flags = re.IGNORECASE)
+                        
+                        self.users[name]['likes'].append(likes)
 
+                    #print(len(self.users[name]['likes']))
                     print("Chatbot: " + "Noted. "+name+" likes ")
                     for like in self.users[name]['likes']:
                         print(like," and ")
+                #keep track of user dislikes
+                
                     
                 else:    
                     response = self.sent_response(name,message)
@@ -101,7 +109,7 @@ class Chatbot:
         message = message.lower()
         if "?" in message:
             return True
-        elif "who" in message or "what" in message.lower or "when" in message or "where" in message or "why" in message or "how" in message:
+        elif "who" in message or "what" in message or "when" in message or "where" in message or "why" in message or "how" in message:
             return True
         else:
             return False
