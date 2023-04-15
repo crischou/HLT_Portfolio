@@ -42,8 +42,10 @@ class Chatbot:
         dislike_pattern = r'\b(?:%s)\b' % '|'.join(dislike_keywords)
         #school related keywords
         school_keywords = ["utd","university of texas at dallas","college","school","university","utdallas","class","student","professor","grades","semester","enrollment","degree","major","minor","graduate","undergraduate","graduate school","undergraduate school","graduate student"]
-        
-
+        #thank keywords
+        thanks_keywords = ["thank","thanks","thank you","thanks you","appreciate","appreciate it","appreciate you","appreciate it"]
+        #greeting keywords
+        greeting_keywords = ["hi","hello","howdy","salutations","hey","yo","sup"]
 
 
         print("Chatbot: Hello, what is your name?")
@@ -178,7 +180,14 @@ class Chatbot:
 
                     #print(len(self.users[name]['dislikes']))
                     print("Chatbot: " + "Noted. "+name+" dislikes "+dislikes[0])
+                #respond to user thanks
+                elif(any(word in message.lower() for word in thanks_keywords)):
+                    self.resp_ty(name)
+                #respond to user greetings
+                elif(any(word in message.lower() for word in greetings_keywords)):
+                    self.greet(name)
                     
+                #general sentiment response
                 else:    
                     response = self.sent_response(name,message)
                     print("Chatbot: " + response)
@@ -208,6 +217,11 @@ class Chatbot:
     #keep track of user grades
     def grade(self, name,grade):
         self.users[name]['grade'].append(grade)
+
+    #respond to thanks
+    def resp_ty(self,name):
+        responses = ["You're welcome","No problem","Anytime", "My pleasure", "No worries", "Of course"]
+        print("Chatbot: " + random.choice(responses) + " " + name)
 
     #sentiment response
     def sent_response(self, name, message):
