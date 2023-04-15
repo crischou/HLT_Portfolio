@@ -76,9 +76,32 @@ class Chatbot:
                 #Keep track of user questions
                 elif(self.isQuestion(message)):
 
-                    #using LangChain query to get response
-                    response = index.query(message)
-                    print("Chatbot: " + response)
+                    #using LangChain query to get response if related to utd
+                    if "utd" in message.lower():
+                        response = index.query(message)
+                        print("Chatbot: " + response)
+                    elif(re.search(like_pattern,message,re.IGNORECASE)):
+                        #check if user has likes
+                        if len(self.users[name]['likes']) == 0:
+                            print("You haven't told me what you like yet.")
+                        else:
+                            #choose random like
+                            #like = random.choice(self.users[name]['likes'])
+                            like_items = ""
+                            for likes in self.users[name]['likes']:
+                                like_items = like_items + ", "+ likes[0] 
+                            print("Chatbot: "+name+" likes "+like_items)
+                            
+
+                            
+                    elif(re.search(dislike_pattern,message,re.IGNORECASE)):
+                        #check if user has dislikes
+                        if len(self.users[name]['dislikes']) == 0:
+                            print("You haven't told me what you dislike yet.")
+                        else:
+                            #choose random dislike
+                            dislike = random.choice(self.users[name]['dislikes'])
+                            print("Chatbot: "+name+" dislikes "+dislike)
                     
                     self.users[name]['questions'].append(message)
 
@@ -93,7 +116,7 @@ class Chatbot:
                         self.users[name]['likes'].append(likes)
 
                     #print(len(self.users[name]['likes']))
-                    print("Chatbot: " + "Noted. "+name+" likes ")
+                    print("Chatbot: " + "Noted. "+name+" likes "+likes[0])
                     
                 #keep track of user dislikes
                 elif(re.search(dislike_pattern,message,re.IGNORECASE)):
@@ -106,7 +129,7 @@ class Chatbot:
                         self.users[name]['dislikes'].append(dislikes)
 
                     #print(len(self.users[name]['dislikes']))
-                    print("Chatbot: " + "Noted. "+name+" dislikes ")
+                    print("Chatbot: " + "Noted. "+name+" dislikes "+dislikes[0])
                     
                 else:    
                     response = self.sent_response(name,message)
