@@ -14,6 +14,10 @@ from langchain import OpenAI
 from langchain.document_loaders import TextLoader
 from langchain.indexes import VectorstoreIndexCreator
 from camo import API_KEY
+import spacy
+
+
+
 
 
 os.environ['OPENAI_API_KEY'] = API_KEY
@@ -49,6 +53,10 @@ class Chatbot:
         #name pattern
         name_pattern = re.compile(r"(i'm|i am|im|my name is|my names)[\s]+([A-Za-z]+)",re.IGNORECASE)
 
+        #spacy
+        spacy_nlp = spacy.load("en_core_web_sm")
+
+
         print("Chatbot: Hello, what is your name?")
         raw_in = input("You: ")
         match = re.search(name_pattern,raw_in)
@@ -56,7 +64,7 @@ class Chatbot:
             name = match.group(2)
         else:
             name = raw_in
-                    
+        
         #check if new user or returning user
         if name not in self.users:
             self.users[name] = {'name': name, 'grade': [],'message': [],'responses': [],"questions": [],"likes": [],"dislikes": []}
@@ -77,13 +85,22 @@ class Chatbot:
             #print(pos)
             #get subject of message
             ner_tags = nltk.ne_chunk(pos)
-            #print(ner_tags)
-            subject = ""
-            #extract subject
-            for chunk in ner_tags:
-                if hasattr(chunk, 'label') and chunk.label() == 'PERSON':
-                    subject = ' '.join(c[0] for c in chunk.leaves())
+            # print(ner_tags)
+            # subject = ""
+            # #extract subject
+            # for chunk in ner_tags:
+            #     if hasattr(chunk, 'label') and chunk.label() == 'PERSON':
+            #         subject = ' '.join(c[0] for c in chunk.leaves())
+            #         break
+
+            subject =""
+            doc = spacy_nlp(message)
+            for token in doc:
+                if token.dep_ == "nsubj":
+                    subject = token.text
                     break
+                else:
+                    subject = name
 
             if "bye" in message.lower():
                 self.goodbye(name)
@@ -113,6 +130,7 @@ class Chatbot:
                     #check if asking about likes
                     elif(re.search(like_pattern,message,re.IGNORECASE)):
                         #check who the user is asking about
+                        print("subject: "+subject)
                         if subject == name or subject.lower() == "i":
                             #check if user has likes
                             if len(self.users[name]['likes']) == 0:
@@ -122,7 +140,7 @@ class Chatbot:
                                 #like = random.choice(self.users[name]['likes'])
                                 like_items = ""
                                 for likes in self.users[name]['likes']:
-                                    like_items = like_items + ", "+ likes[0] 
+                                    like_items = like_items + ", "+ likes 
                                 print("Chatbot: "+name+" likes "+like_items)
                         #check if subject has likes
                         elif(subject in self.users):
@@ -139,7 +157,7 @@ class Chatbot:
                             
                     elif(re.search(dislike_pattern,message,re.IGNORECASE)):
                         #check who the user is asking about
-                        if subject == name:
+                        if subject == name or subject.lower() == "i":
                             #check if user has dislikes
                             if len(self.users[name]['dislikes']) == 0:
                                 print("You haven't told me what you dislike yet.")
@@ -148,14 +166,14 @@ class Chatbot:
                                 #dislike = random.choice(self.users[name]['dislikes'])
                                 dislike_items=""
                                 for dislike in self.users[name]['dislikes']:
-                                    dislike_items = dislike_items + ", "+ dislike[0] 
+                                    dislike_items = dislike_items + ", "+ dislike 
                                 print("Chatbot: "+name+" dislikes "+ dislike_items)
                         #check if subject has likes
                         elif(subject in self.users):
                             if(len(self.users[subject]['dislikes'])> 0):
                                 dislike_items = ""
                                 for dislikes in self.users[subject]['dislikes']:
-                                    dislike_items = dislike_items + ", "+ dislikes[0] 
+                                    dislike_items = dislike_items + ", "+ dislikes 
                                 print("Chatbot: "+subject+" dislikes "+dislike_items)
                             elif(len(self.users[subject]['dislikes']) == 0):
                                 print("Chatbot: "+subject+" hasn't told me what they dislike yet.")
@@ -169,7 +187,7 @@ class Chatbot:
                     #get NN in message
                     for likes,pos in pos:
                         if pos == 'NN':
-                            print(likes)
+                           #print(likes)
                             self.users[name]['likes'].append(likes)
                     #looking for keywords
                     # matches = re.findall(like_pattern,message,flags = re.IGNORECASE)
@@ -179,20 +197,25 @@ class Chatbot:
                     #     self.users[name]['likes'].append(likes)
 
                     #print(len(self.users[name]['likes']))
-                    print("Chatbot: " + "Noted. "+name+" likes "+likes)
+                    print("Chatbot: " + "Noted. "+name+" likes ",", ".join(self.users[name]['likes']))
                     
                 #keep track of user dislikes
                 elif(re.search(dislike_pattern,message,re.IGNORECASE)):
-                    
+                    #get NN in message
+                    for dislikes,pos in pos:
+                        if pos == 'NN':
+                            #print(dislikes)
+                            self.users[name]['likes'].append(dislikes)
+
                     #looking for keywords
-                    matches = re.findall(dislike_pattern,message,flags = re.IGNORECASE)
-                    for match in matches:
-                        dislikes = re.findall(f'{match} ([\w\s]+)',message,flags = re.IGNORECASE)
+                    # matches = re.findall(dislike_pattern,message,flags = re.IGNORECASE)
+                    # for match in matches:
+                    #     dislikes = re.findall(f'{match} ([\w\s]+)',message,flags = re.IGNORECASE)
                         
-                        self.users[name]['dislikes'].append(dislikes)
+                    #     self.users[name]['dislikes'].append(dislikes)
 
                     #print(len(self.users[name]['dislikes']))
-                    print("Chatbot: " + "Noted. "+name+" dislikes "+dislikes[0])
+                    print("Chatbot: " + "Noted. "+name+" dislikes "+dislikes)
                 #respond to user thanks
                 elif(any(word in message.lower() for word in thanks_keywords)):
                     self.resp_ty(name)
