@@ -74,8 +74,10 @@ class Chatbot:
             tokens = nltk.word_tokenize(message)
             #get pos tags
             pos = nltk.pos_tag(tokens)
+            #print(pos)
             #get subject of message
             ner_tags = nltk.ne_chunk(pos)
+            #print(ner_tags)
             subject = ""
             #extract subject
             for chunk in ner_tags:
@@ -164,16 +166,20 @@ class Chatbot:
 
                 #keep track of user likes
                 elif(re.search(like_pattern,message,re.IGNORECASE)):
-                    
+                    #get NN in message
+                    for likes,pos in pos:
+                        if pos == 'NN':
+                            print(likes)
+                            self.users[name]['likes'].append(likes)
                     #looking for keywords
-                    matches = re.findall(like_pattern,message,flags = re.IGNORECASE)
-                    for match in matches:
-                        likes = re.findall(f'{match} ([\w\s]+)',message,flags = re.IGNORECASE)
+                    # matches = re.findall(like_pattern,message,flags = re.IGNORECASE)
+                    # for match in matches:
+                    #     likes = re.findall(f'{match} ([\w\s]+)',message,flags = re.IGNORECASE)
                         
-                        self.users[name]['likes'].append(likes)
+                    #     self.users[name]['likes'].append(likes)
 
                     #print(len(self.users[name]['likes']))
-                    print("Chatbot: " + "Noted. "+name+" likes "+likes[0])
+                    print("Chatbot: " + "Noted. "+name+" likes "+likes)
                     
                 #keep track of user dislikes
                 elif(re.search(dislike_pattern,message,re.IGNORECASE)):
