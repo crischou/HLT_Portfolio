@@ -32,3 +32,7 @@ This assignment was a good review for text processing in Python because it cover
 ## Chatbot
 [Code](/chatbot/main.py)
 [Knowledge base](/chatbot/data/data_l.txt)
+
+## Text Classification 2
+[Code](/textclass2/textclass2.ipynb)
+[Data files](textclass/data)
