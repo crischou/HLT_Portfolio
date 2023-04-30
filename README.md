@@ -36,3 +36,6 @@ This assignment was a good review for text processing in Python because it cover
 ## Text Classification 2
 [Code](/textclass2/textclass2.ipynb)
 [Data files](textclass/data)
+
+## Summary
+Through this course, I learned a great deal about NLP techniques. I learned about staple NLP techniques such as tf-idf, NER, and term frequency. In addition, I also learned alot about information extraction and data parsing which not only helped with this course but can be applicable to general machine learning and data analysis. The pace at which this field changes is very intimidating; it feels that not so long ago ChatGPT was just starting to catch eyes, and now GPT-4 has already been released for early access. I'd love to take opportunities that would continue using the skills from this course in the future, whether that be for employment or research.    
