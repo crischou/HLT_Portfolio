@@ -9,7 +9,7 @@ UTD CS4395 Humans Language Technology (NLP)
 Program reads a csv file containing a list of employees and other identifiers. Validates input and then prints out list of employees.
 Run on commandline with "python file.py <filepath.csv>"
 Python has many functions that are easy to use for processing text. The regex functions are easy and intuitive, and there are also many additional libraries that make text processing in Python very simple. Addtionaly, the language just feels smooth to code in. 
-This assignment was a good review for text processing in Python because it covered many scenarios and had lots of input validation. I also learned a bit more on how to use the Python Dictionaries datastructure.
+This assignment was a good review for text processing in Python because it covered many scenarios and had lots of input validation. I also learned a bit more on how to use the Python Dictionaries datastructure.  
 [Code](/Hw1/Hw1.py)
 
 ## HW2
