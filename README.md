@@ -1,5 +1,5 @@
 # HLT_Portfolio
-UTD CS4395 Humans Language Technology (NLP)
+UTD CS4395 Humans Language Technology (NLP)  
 [Skills](/SKILLS.md)
 
 ## HW0
