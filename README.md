@@ -19,23 +19,23 @@ This assignment was a good review for text processing in Python because it cover
 [Code](/Hw3/Hw3.ipynb)
 
 ## HW4
-[Program 1](/Hw4/Main.py)
-[Program 2](/Hw4/Output.py)
+[Program 1](/Hw4/Main.py)  
+[Program 2](/Hw4/Output.py)  
 [Overview](/Hw4/Hw4%20Narrative.pdf)
 
 ## HW5
 [Code](/Hw5/Hw5.py)
 
 ## Text Classification
-[Code](/textclass/textclass.ipynb)
+[Code](/textclass/textclass.ipynb)  
 [Data files](/textclass/data)
 
 ## Chatbot
-[Code](/chatbot/main.py)
+[Code](/chatbot/main.py)  
 [Knowledge base](/chatbot/data/data_l.txt)
 
 ## Text Classification 2
-[Code](/textclass2/textclass2.ipynb)
+[Code](/textclass2/textclass2.ipynb)  
 [Data files](textclass/data)
 
 ## Summary
