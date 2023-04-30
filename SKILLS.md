@@ -1,3 +1,4 @@
 ## Skills
 
-### Technical Skills
+### Technical Skills  
+	*  Python
